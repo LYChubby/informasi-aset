@@ -13,14 +13,26 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <style>
+            :root {
+                --color-primary: #FF4B2B;
+                --color-primary-light: #FF8A65;
+                --color-primary-dark: #E53935;
+                --color-bg-light: #FDFDFC;
+                --color-bg-dark: #1a1a1a;
+                --color-text-light: #1b1b18;
+                --color-text-dark: #EDEDEC;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
+                <header class="bg-white dark:bg-[#252525] shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -28,7 +40,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)]">
                 {{ $slot }}
             </main>
         </div>
