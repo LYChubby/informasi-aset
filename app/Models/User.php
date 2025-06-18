@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Tambahkan role
     ];
 
     /**
@@ -44,5 +44,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relasi dengan Aset IT (User memiliki banyak aset)
+    public function asetIT()
+    {
+        return $this->hasMany(AsetIT::class);
+    }
+
+    // Cek peran user
+    public function is_admin(): bool
+    {
+        return $this->role === 'is_admin';
+    }
+
+    public function is_karyawan(): bool
+    {
+        return $this->role === 'is_karyawan';
     }
 }
