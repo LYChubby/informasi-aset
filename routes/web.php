@@ -11,7 +11,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('assets', AssetController::class)->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('assets', AssetController::class);
+});
+
+
 Route::resource('reports', ReportController::class)->middleware('auth');
 Route::resource('users', UserController::class)->middleware('auth');
 
