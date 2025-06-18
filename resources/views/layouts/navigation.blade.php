@@ -6,7 +6,7 @@
                 <!-- App Name/Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="text-xl font-bold text-[#FF4B2B] dark:text-[#FF8A65]">
-                        AssetManager
+                        DisneyUpTech
                     </a>
                 </div>
 
