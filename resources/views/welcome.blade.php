@@ -344,23 +344,71 @@
         </div>
 
 
-        <script>
-            const signUpButton = document.getElementById('signUp');
-            const signInButton = document.getElementById('signIn');
-            const container = document.getElementById('authContainer');
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('authContainer');
 
-            signUpButton.addEventListener('click', () => {
-                container.classList.add('right-panel-active');
+    // Handle panel switching
+    signUpButton.addEventListener('click', () => {
+        container.classList.add('right-panel-active');
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove('right-panel-active');
+    });
+
+    // Check URL to see which panel should be active
+    if(window.location.pathname === '/register') {
+        container.classList.add('right-panel-active');
+    }
+
+    // Handle Laravel validation errors
+    @if($errors->any())
+        @if($errors->has('email') || $errors->has('password'))
+            // Show login errors
+            container.classList.remove('right-panel-active');
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                html: `
+                    @foreach($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                `,
+                confirmButtonColor: '#FF4B2B'
             });
-
-            signInButton.addEventListener('click', () => {
-                container.classList.remove('right-panel-active');
+        @else
+            // Show registration errors
+            container.classList.add('right-panel-active');
+            Swal.fire({
+                icon: 'error',
+                title: 'Registration Failed',
+                html: `
+                    @foreach($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                `,
+                confirmButtonColor: '#FF4B2B'
             });
+        @endif
+    @endif
 
-            // Check URL to see which panel should be active
-            if(window.location.pathname === '/register') {
-                container.classList.add('right-panel-active');
-            }
-        </script>
+    // Handle success messages
+    @if(session('login_success') || session('register_success') || session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '{{ session('login_success') ?? session('register_success') ?? session('success') }}',
+        confirmButtonColor: '#FF4B2B',
+        timer: 2000,
+        timerProgressBar: true
+    }).then(() => {
+        window.location.href = "{{ url('/dashboard') }}";
+    });
+@endif
+
+</script>
     </body>
 </html>

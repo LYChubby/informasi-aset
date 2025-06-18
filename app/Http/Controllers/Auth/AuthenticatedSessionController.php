@@ -28,7 +28,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+         return redirect()->intended('/dashboard')
+        ->with('login_success', 'You have successfully logged in!');
     }
 
     /**
