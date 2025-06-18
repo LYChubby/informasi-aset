@@ -36,9 +36,6 @@
                         <x-dropdown-link :href="route('profile.edit')" class="hover:text-[#FF4B2B] dark:hover:text-[#FF8A65]">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('users.index')" class="hover:text-[#FF4B2B] dark:hover:text-[#FF8A65]">
-                            {{ __('Pengguna') }}
-                        </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')"
@@ -82,9 +79,6 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')" class="text-gray-700 dark:text-gray-300 hover:text-[#FF4B2B] dark:hover:text-[#FF8A65]">
                     {{ __('Profile') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('users.index')" class="text-gray-700 dark:text-gray-300 hover:text-[#FF4B2B] dark:hover:text-[#FF8A65]">
-                    {{ __('Pengguna') }}
                 </x-responsive-nav-link>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
