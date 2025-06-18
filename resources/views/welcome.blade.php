@@ -286,30 +286,7 @@
                 border: 1px solid #FF4B2B;
             }
 
-            footer {
-                background-color: #222;
-                color: #fff;
-                font-size: 14px;
-                bottom: 0;
-                position: fixed;
-                left: 0;
-                right: 0;
-                text-align: center;
-                z-index: 999;
-            }
-
-            footer p {
-                margin: 10px 0;
-            }
-
-            footer i {
-                color: red;
-            }
-
-            footer a {
-                color: #3c97bf;
-                text-decoration: none;
-            }
+            
         </style>
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
@@ -366,14 +343,6 @@
             </div>
         </div>
 
-        <footer>
-            <p>
-                Created with <i class="fa fa-heart"></i> by
-                <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-                - Read how I created this and how you can join the challenge
-                <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-            </p>
-        </footer>
 
         <script>
             const signUpButton = document.getElementById('signUp');
