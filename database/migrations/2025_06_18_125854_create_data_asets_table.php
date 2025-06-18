@@ -10,12 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('data_asets', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('data_asets', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('aset_id')->constrained('asets')->onDelete('cascade');
+        $table->string('jenis');
+        $table->string('merk');
+        $table->string('tipe');
+        $table->string('serial_number');
+        $table->string('hostname');
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.
