@@ -16,6 +16,7 @@ class Asset extends Model
         'status',
         'tanggal_pembelian',
         'nilai',
+        'deskripsi',
     ];
 
     protected $casts = [

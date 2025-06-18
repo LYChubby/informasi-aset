@@ -27,6 +27,7 @@ class AssetController extends Controller
             'status' => 'required|string|in:aktif,perbaikan,non-aktif',
             'tanggal_pembelian' => 'required|date',
             'nilai' => 'required|numeric',
+            'deskripsi' => 'nullable|string',
         ]);
 
         Asset::create($request->all());
@@ -54,6 +55,7 @@ class AssetController extends Controller
             'status' => 'required|string|in:aktif,perbaikan,non-aktif',
             'tanggal_pembelian' => 'required|date',
             'nilai' => 'required|numeric',
+            'deskripsi' => 'nullable|string',
         ]);
 
         $asset->update($request->all());

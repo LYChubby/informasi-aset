@@ -17,7 +17,7 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Daftar Aset</h3>
-                        <a href="{{ route('assets.create') }}" class="px-4 py-2 bg-[#FF4B2B] text-gray-900 rounded-md hover:bg-[#E53935] dark:bg-[#FF8A65] dark:hover:bg-[#FF7043] transition">
+                        <a href="{{ route('assets.create') }}" class="px-4 py-2 bg-[#FFEEEA] text-gray-900 rounded-md hover:bg-[#FF8A65] hover:text-white dark:bg-[#FF8A65] dark:hover:bg-[#FF7043] transition">
                             Tambah Aset
                         </a>
                     </div>
