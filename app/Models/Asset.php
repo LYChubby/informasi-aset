@@ -18,5 +18,14 @@ class Asset extends Model
         'nilai',
     ];
 
-    protected $dates = ['tanggal_pembelian'];
+    protected $casts = [
+    'tanggal_pembelian' => 'datetime', // Ganti 'date' menjadi 'datetime'
+];
+
+// Atau lebih baik gunakan:
+protected $dates = [
+    'tanggal_pembelian',
+    'created_at',
+    'updated_at',
+];
 }

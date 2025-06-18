@@ -6,26 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::create('asets', function (Blueprint $table) {
+        Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->date('tgl_terima');
-            $table->string('kondisi');
+            $table->string('nama');
+            $table->string('kategori');
+            $table->string('lokasi');
             $table->string('status');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // relasi ke users
+            $table->date('tanggal_pembelian');
+            $table->decimal('nilai', 12, 2);
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('asets');
+        Schema::dropIfExists('assets');
     }
 };
