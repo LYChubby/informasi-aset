@@ -105,47 +105,52 @@
 
             <!-- Aset Terbaru -->
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg border-t-4 border-[#FF4B2B]">
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">Aset Terbaru</h3>
-                        <a href="{{ route('assets.index') }}" class="text-sm text-[#FF4B2B] hover:text-[#E53935] dark:text-[#FF8A65] dark:hover:text-[#FF7043] hover:underline">Lihat Semua</a>
-                    </div>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-[#FFEEEA] dark:bg-[#331710]">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Nama Aset</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Kategori</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Lokasi</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Status</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Tanggal Pembelian</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                <tr class="hover:bg-[#FFF5F5] dark:hover:bg-[#332121]">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Laptop Dell XPS 15</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Elektronik</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Kantor Pusat</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#E8F5E9] text-[#2E7D32] dark:bg-[#1B311B] dark:text-[#81C784]">Aktif</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">15 Jan 2023</td>
-                                </tr>
-                                <tr class="hover:bg-[#FFF5F5] dark:hover:bg-[#332121]">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Proyektor Epson EB-985</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Perangkat Presentasi</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Ruang Meeting</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#FFF8E1] text-[#FF8F00] dark:bg-[#332900] dark:text-[#FFD54F]">Perbaikan</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">10 Mar 2023</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Aset Terbaru</h3>
+            <a href="{{ route('assets.index') }}" class="text-sm text-[#FF4B2B] hover:text-[#E53935] dark:text-[#FF8A65] dark:hover:text-[#FF7043] hover:underline">Lihat Semua</a>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-[#FFEEEA] dark:bg-[#331710]">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Nama Aset</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Kategori</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Lokasi</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[#D32F2F] dark:text-[#FF8A65] uppercase tracking-wider">Tanggal Pembelian</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    @foreach($latestAssets as $asset)
+                    <tr class="hover:bg-[#FFF5F5] dark:hover:bg-[#332121]">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{ $asset->nama }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $asset->kategori }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $asset->lokasi }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if($asset->status == 'aktif')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#E8F5E9] text-[#2E7D32] dark:bg-[#1B311B] dark:text-[#81C784]">Aktif</span>
+                            @elseif($asset->status == 'perbaikan')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#FFF8E1] text-[#FF8F00] dark:bg-[#332900] dark:text-[#FFD54F]">Perbaikan</span>
+                            @else
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#FFEBEE] text-[#C62828] dark:bg-[#331313] dark:text-[#EF5350]">Non-Aktif</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            @if($asset->tanggal_pembelian)
+                                {{ \Carbon\Carbon::parse($asset->tanggal_pembelian)->format('d M Y') }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </x-app-layout>

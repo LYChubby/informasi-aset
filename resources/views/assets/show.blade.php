@@ -33,11 +33,11 @@
                                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</p>
                                     <p class="mt-1 text-sm">
                                         @if($asset->status == 'aktif')
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Aktif</span>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#E8F5E9] text-[#2E7D32] dark:bg-[#1B311B] dark:text-[#81C784]">Aktif</span>
                                         @elseif($asset->status == 'perbaikan')
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">Perbaikan</span>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#FFF8E1] text-[#FF8F00] dark:bg-[#332900] dark:text-[#FFD54F]">Perbaikan</span>
                                         @else
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Non-Aktif</span>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#FFEBEE] text-[#C62828] dark:bg-[#331313] dark:text-[#EF5350]">Non-Aktif</span>
                                         @endif
                                     </p>
                                 </div>
