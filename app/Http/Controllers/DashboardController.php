@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $totalAllAssets = Asset::count();
         $totalAktif = Asset::where('status', 'aktif')->count();
         $totalPerbaikan = Asset::where('status', 'perbaikan')->count();
-        $totalNonAktif = Asset::where('status', 'nonaktif')->count();
+        $totalNonAktif = Asset::where('status', 'non-aktif')->count();
         
         return view('dashboard', compact(
             'latestAssets',

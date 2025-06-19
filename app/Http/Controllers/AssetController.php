@@ -7,9 +7,19 @@ use Illuminate\Http\Request;
 
 class AssetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $assets = Asset::latest()->paginate(10);
+        $query = Asset::query();
+
+        if ($request->has('search') && $request->search !== null) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->search . '%')
+                  ->orWhere('kategori', 'like', '%' . $request->search . '%')
+                  ->orWhere('lokasi', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $assets = $query->latest()->paginate(10)->withQueryString();
         return view('assets.index', compact('assets'));
     }
 
