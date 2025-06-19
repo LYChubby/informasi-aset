@@ -140,7 +140,7 @@
                 </a>
 
                 <!-- Kelola Akun -->
-                <a href="{{ route('users.index') }}" class="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:scale-105 border border-gray-100 dark:border-gray-700 hover:border-purple-300">
+                <a href="{{ route('admin.users.index') }}" class="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:scale-105 border border-gray-100 dark:border-gray-700 hover:border-purple-300">
                     <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="relative p-8 text-center">
                         <div class="inline-flex p-6 rounded-3xl bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-2xl group-hover:shadow-purple-300 group-hover:scale-110 transition-all duration-300 mb-6">

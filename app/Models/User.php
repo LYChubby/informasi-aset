@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // Tambahkan role
+        'is_admin', 
     ];
 
     /**
@@ -43,23 +43,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean'
         ];
     }
 
     // Relasi dengan Aset IT (User memiliki banyak aset)
-    public function asetIT()
-    {
-        return $this->hasMany(AsetIT::class);
-    }
+    // public function asetIT()
+    // {
+    //     return $this->hasMany(AsetIT::class);
+    // }
 
     // Cek peran user
-    public function is_admin(): bool
+    public function is_admin()
     {
-        return $this->role === 'is_admin';
-    }
-
-    public function is_karyawan(): bool
-    {
-        return $this->role === 'is_karyawan';
+        return $this->is_admin === true || $this->is_admin == 1;
     }
 }

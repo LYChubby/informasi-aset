@@ -10,16 +10,7 @@ use Illuminate\Validation\Rule;
 class UserManagementController extends Controller
 {
     // Pastikan hanya admin yang bisa akses controller ini
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (auth()->check() && auth()->user()->is_admin()) {
-                return $next($request);
-            }
-
-            abort(403, 'Unauthorized');
-        });
-    }
+    
 
     // Tampilkan daftar user dengan fitur search
     public function index(Request $request)
@@ -49,14 +40,14 @@ class UserManagementController extends Controller
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role'     => ['required', Rule::in(['is_admin', 'is_karyawan'])],
+            'is_admin' => 0,
         ]);
 
         User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => $request->role,
+            'is_admin' => $request->is_admin,
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
@@ -74,13 +65,13 @@ class UserManagementController extends Controller
         $request->validate([
             'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'role'  => ['required', Rule::in(['is_admin', 'is_karyawan'])],
+            'is_admin' => ['required', 'boolean'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user->name  = $request->name;
         $user->email = $request->email;
-        $user->role  = $request->role;
+        $user->is_admin = $request->is_admin;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
