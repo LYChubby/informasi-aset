@@ -294,6 +294,14 @@
         .animate-slide-in-up {
             animation: slideInUp 0.6s ease-out forwards;
         }
+
+        [data-animate] {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-animate].animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
         
         /* Hover effects for inputs */
         input:focus, select:focus, textarea:focus {
@@ -539,55 +547,6 @@
             }, 5000);
         }
         
-        // Add auto-save functionality (optional)
-        function autoSave() {
-            const formData = new FormData(document.getElementById('asset-form'));
-            const data = Object.fromEntries(formData);
-            
-            // Save to localStorage as draft
-            localStorage.setItem('asset_draft', JSON.stringify(data));
-            
-            // Show auto-save indicator
-            const indicator = document.createElement('div');
-            indicator.className = 'fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm opacity-0 transition-opacity duration-300';
-            indicator.textContent = 'Draft tersimpan otomatis';
-            document.body.appendChild(indicator);
-            
-            setTimeout(() => indicator.style.opacity = '1', 100);
-            setTimeout(() => {
-                indicator.style.opacity = '0';
-                setTimeout(() => indicator.remove(), 300);
-            }, 2000);
-        }
         
-        // Auto-save every 30 seconds
-        setInterval(autoSave, 30000);
-        
-        // Load draft on page load
-        window.addEventListener('load', function() {
-            const draft = localStorage.getItem('asset_draft');
-            if (draft && confirm('Ditemukan draft yang tersimpan. Apakah Anda ingin memulihkannya?')) {
-                const data = JSON.parse(draft);
-                Object.keys(data).forEach(key => {
-                    const field = document.querySelector(`[name="${key}"]`);
-                    if (field && !field.value) {
-                        field.value = data[key];
-                    }
-                });
-                
-                // Update progress after loading draft
-                setTimeout(() => {
-                    const event = new Event('input');
-                    document.getElementById('nama').dispatchEvent(event);
-                }, 100);
-            }
-        });
-        
-        // Clear draft on successful submission
-        document.getElementById('asset-form').addEventListener('submit', function() {
-            setTimeout(() => {
-                localStorage.removeItem('asset_draft');
-            }, 1000);
-        });
     </script>
 </x-app-layout>
