@@ -9,22 +9,23 @@ use Illuminate\Validation\Rule;
 
 class UserManagementController extends Controller
 {
-    // Pastikan hanya admin yang bisa akses controller ini
     
-
     // Tampilkan daftar user dengan fitur search
     public function index(Request $request)
     {
         $search = $request->input('search');
 
         $users = User::when($search, function ($query, $search) {
-                        return $query->where('name', 'like', "%{$search}%")
-                                     ->orWhere('email', 'like', "%{$search}%");
-                    })
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(10);
+                    return $query->where('name', 'like', "%{$search}%")
+                                ->orWhere('email', 'like', "%{$search}%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
 
-        return view('admin.users.index', compact('users', 'search'));
+        return view('admin.users.index', [
+            'users' => $users,
+            'search' => $search
+        ]);
     }
 
     // Tampilkan form tambah user
@@ -40,14 +41,14 @@ class UserManagementController extends Controller
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'is_admin' => 0,
+            'role' => ['required', 'string', 'in:is_admin,is_karyawan'],
         ]);
 
         User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'is_admin' => $request->is_admin,
+            'is_admin' => $request->role === 'is_admin',
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
@@ -65,13 +66,13 @@ class UserManagementController extends Controller
         $request->validate([
             'name'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'is_admin' => ['required', 'boolean'],
+            'role' => ['required', 'string', 'in:is_admin,is_karyawan'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user->name  = $request->name;
         $user->email = $request->email;
-        $user->is_admin = $request->is_admin;
+        $user->is_admin = $request->role === 'is_admin';
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
