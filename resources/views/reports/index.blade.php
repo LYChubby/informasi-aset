@@ -33,6 +33,7 @@
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Nama Aset</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Kategori</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Lokasi</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Deskripsi</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Status</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Ubah Status</th>
                     </tr>
@@ -44,10 +45,11 @@
                             <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->nama }}</td>
                             <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->kategori }}</td>
                             <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->lokasi }}</td>
+                            <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->deskripsi }}</td>
                             <td class="px-6 py-4">
                                 <span class="px-3 py-1 rounded-full text-white text-sm 
                                     @if($asset->status === 'Aktif') bg-green-500 
-                                    @elseif($asset->status === 'Rusak') bg-red-500 
+                                    @elseif($asset->status === 'Perbaikan') bg-red-500 
                                     @else bg-gray-500 @endif">
                                     {{ $asset->status }}
                                 </span>
@@ -59,7 +61,7 @@
                                     <select name="status" onchange="this.form.submit()"
                                         class="p-2 rounded border border-gray-300 dark:bg-gray-700 dark:text-white">
                                         <option value="Aktif" {{ $asset->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                        <option value="Rusak" {{ $asset->status === 'Rusak' ? 'selected' : '' }}>Rusak</option>
+                                        <option value="Perbaikan" {{ $asset->status === 'Perbaikan' ? 'selected' : '' }}>Perbaikan</option>
                                         <option value="Nonaktif" {{ $asset->status === 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
                                     </select>
                                 </form>

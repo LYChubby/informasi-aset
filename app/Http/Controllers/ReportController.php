@@ -15,7 +15,9 @@ class ReportController extends Controller
                 $query->where('nama', 'like', "%{$search}%")
                       ->orWhere('kategori', 'like', "%{$search}%")
                       ->orWhere('lokasi', 'like', "%{$search}%")
-                      ->orWhere('status', 'like', "%{$search}%");
+                      ->orWhere('status', 'like', "%{$search}%")
+                      ->orWhere('deskripsi', 'like', "%{$search}%");
+
             })
             ->orderBy('created_at', 'desc')
             ->get();
@@ -26,7 +28,7 @@ class ReportController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Aktif,Rusak,Nonaktif',
+            'status' => 'required|in:Aktif,Perbaikan,Nonaktif',
         ]);
 
         $asset = Asset::findOrFail($id);
