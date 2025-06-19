@@ -122,11 +122,22 @@
                                             </svg>
                                         </div>
                                         <x-text-input id="password" 
-                                            class="block w-full pl-10 pr-3 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-800 transition-all duration-200 bg-gray-50 dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600" 
+                                            class="block w-full pl-10 pr-12 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-800 transition-all duration-200 bg-gray-50 dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600" 
                                             type="password" 
                                             name="password" 
                                             placeholder="Biarkan kosong jika tidak ingin mengubah"
                                             autocomplete="new-password" />
+                                        <button type="button" 
+                                            onclick="togglePasswordVisibility('password')"
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-orange-500 transition-colors duration-200">
+                                            <svg id="password-eye-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                            <svg id="password-eye-closed" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                                            </svg>
+                                        </button>
                                         <x-input-label for="password" :value="__('Password Baru')" class="absolute -top-2 left-3 bg-white dark:bg-gray-800 px-2 text-sm font-medium text-gray-700 dark:text-gray-300" />
                                     </div>
                                     <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Kosongkan jika tidak ingin mengubah password</p>
@@ -142,10 +153,13 @@
                                             </svg>
                                         </div>
                                         <x-text-input id="password_confirmation" 
-                                            class="block w-full pl-10 pr-3 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-800 transition-all duration-200 bg-gray-50 dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600" 
+                                            class="block w-full pl-10 pr-12 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-200 dark:focus:ring-orange-800 transition-all duration-200 bg-gray-50 dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600" 
                                             type="password" 
                                             name="password_confirmation" 
                                             placeholder="Konfirmasi password baru" />
+                                        <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full opacity-0 transition-opacity duration-300" id="confirm-indicator"></div>
+                                    </div>
                                         <x-input-label for="password_confirmation" :value="__('Konfirmasi Password')" class="absolute -top-2 left-3 bg-white dark:bg-gray-800 px-2 text-sm font-medium text-gray-700 dark:text-gray-300" />
                                     </div>
                                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-sm" />
@@ -233,4 +247,47 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePasswordVisibility(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const eyeOpen = document.getElementById(fieldId + '-eye-open');
+            const eyeClosed = document.getElementById(fieldId + '-eye-closed');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeOpen.classList.add('hidden');
+                eyeClosed.classList.remove('hidden');
+            } else {
+                passwordField.type = 'password';
+                eyeOpen.classList.remove('hidden');
+                eyeClosed.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('password_confirmation').addEventListener('input', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = e.target.value;
+            const indicator = document.getElementById('confirm-indicator');
+            
+            if (confirmPassword && password === confirmPassword) {
+                indicator.style.opacity = '1';
+            } else {
+                indicator.style.opacity = '0';
+            }
+        });
+        // Add smooth focus transitions
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.closest('.group').classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.closest('.group').classList.remove('focused');
+                });
+            });
+        });
+    </script>
 </x-app-layout>
