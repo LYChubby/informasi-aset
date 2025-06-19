@@ -1,53 +1,55 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Reports
+        <h2 class="font-bold text-2xl text-gray-900 dark:text-white tracking-tight">
+            📊 Reports Aset IT
         </h2>
     </x-slot>
 
-    <div class="py-6 px-6 max-w-7xl mx-auto">
-        {{-- Flash message --}}
+    <div class="py-10 px-6 max-w-7xl mx-auto space-y-6">
+        {{-- Flash Message --}}
         @if(session('success'))
-            <div class="mb-4 text-green-600 bg-green-100 p-3 rounded-lg">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-sm">
                 {{ session('success') }}
             </div>
         @endif
 
-        {{-- Search --}}
-        <div class="mb-6">
-            <form method="GET" action="{{ route('reports.index') }}" class="flex items-center gap-3">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama / lokasi / status..." 
-                    class="w-full md:w-1/3 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    Cari
-                </button>
-            </form>
-        </div>
+        {{-- Search Bar --}}
+        <form method="GET" action="{{ route('reports.index') }}" class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="🔍 Cari aset, lokasi, atau status..."
+                class="w-full sm:w-1/3 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none">
+            <button type="submit"
+                class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition shadow">
+                Cari
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                </svg>
+            </button>
+        </form>
 
-        {{-- Tabel --}}
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-blue-100 dark:bg-blue-900">
+        {{-- Table --}}
+        <div class="overflow-x-auto rounded-lg shadow-lg ring-1 ring-black/5 dark:ring-white/10">
+            <table class="min-w-full bg-white dark:bg-gray-900 text-sm text-left text-gray-800 dark:text-gray-200">
+                <thead class="text-xs uppercase bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 text-gray-700 dark:text-gray-200">
                     <tr>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">#</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Nama Aset</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Kategori</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Lokasi</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Deskripsi</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Status</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase">Ubah Status</th>
+                        <th class="px-6 py-4">#</th>
+                        <th class="px-6 py-4">Nama Aset</th>
+                        <th class="px-6 py-4">Kategori</th>
+                        <th class="px-6 py-4">Lokasi</th>
+                        <th class="px-6 py-4">Deskripsi</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4">Ubah Status</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody>
                     @forelse ($assets as $index => $asset)
-                        <tr>
-                            <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $index + 1 }}</td>
-                            <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->nama }}</td>
-                            <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->kategori }}</td>
-                            <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->lokasi }}</td>
-                            <td class="px-6 py-4 text-gray-800 dark:text-gray-200">{{ $asset->deskripsi }}</td>
+                        <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                            <td class="px-6 py-4">{{ $index + 1 }}</td>
+                            <td class="px-6 py-4 font-medium">{{ $asset->nama }}</td>
+                            <td class="px-6 py-4">{{ $asset->kategori }}</td>
+                            <td class="px-6 py-4">{{ $asset->lokasi }}</td>
+                            <td class="px-6 py-4">{{ $asset->deskripsi }}</td>
                             <td class="px-6 py-4">
-                                <span class="px-3 py-1 rounded-full text-white text-sm 
+                                <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full text-white
                                     @if($asset->status === 'Aktif') bg-green-500 
                                     @elseif($asset->status === 'Perbaikan') bg-red-500 
                                     @else bg-gray-500 @endif">
@@ -59,7 +61,7 @@
                                     @csrf
                                     @method('PUT')
                                     <select name="status" onchange="this.form.submit()"
-                                        class="p-2 rounded border border-gray-300 dark:bg-gray-700 dark:text-white">
+                                        class="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white shadow-sm">
                                         <option value="Aktif" {{ $asset->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
                                         <option value="Perbaikan" {{ $asset->status === 'Perbaikan' ? 'selected' : '' }}>Perbaikan</option>
                                         <option value="Nonaktif" {{ $asset->status === 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
@@ -69,7 +71,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-4 text-gray-600 dark:text-gray-300">Data tidak ditemukan.</td>
+                            <td colspan="7" class="text-center py-6 text-gray-500 dark:text-gray-300">Tidak ada data aset ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>
