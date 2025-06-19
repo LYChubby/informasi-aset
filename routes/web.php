@@ -31,6 +31,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    // Report Routes
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::put('/reports/{id}/update-status', [ReportController::class, 'updateStatus'])->name('reports.updateStatus');
 });
 
 require __DIR__.'/auth.php';
