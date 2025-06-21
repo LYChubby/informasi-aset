@@ -1,8 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-bold text-2xl text-gray-900 dark:text-white tracking-tight">
-            📊 Reports Aset IT
-        </h2>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h2 class="font-bold text-2xl text-gray-900 dark:text-white tracking-tight">
+                📊 Reports Aset IT
+            </h2>
+            <div class="flex gap-2">
+                <a href="{{ route('reports.laporan') }}"
+                   class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow transition">
+                    📥 Laporan Masuk
+                </a>
+                <a href="{{ route('reports.create') }}"
+                   class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow transition">
+                    ➕ Tambah Laporan
+                </a>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-10 px-6 max-w-7xl mx-auto space-y-6">
