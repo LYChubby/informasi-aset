@@ -44,7 +44,7 @@ class ReportController extends Controller
             'title' => $request->title,
             'nama_aset' => $asset->nama,
             'kategori' => $asset->kategori,
-            'deskripsi' => $request->deskripsi,
+            'lokasi' => $asset->lokasi,
             'laporan' => $request->laporan,
             'status' => 'belum_ditanggapi',
         ]);
@@ -82,9 +82,8 @@ class ReportController extends Controller
         }
 
         $request->validate([
-            'deskripsi' => 'required',
             'laporan' => 'required',
-            'status' => 'in:ditanggapi,belum_ditanggapi'
+            'status' => 'in:ditanggapi,belum_ditanggapi,selesai',
         ]);
 
         $report->update($request->only(['deskripsi', 'laporan', 'status']));

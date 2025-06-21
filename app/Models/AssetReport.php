@@ -15,7 +15,7 @@ class AssetReport extends Model
         'title',
         'nama_aset',
         'kategori',
-        'deskripsi',
+        'lokasi',
         'laporan',
         'status',
     ];
