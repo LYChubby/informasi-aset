@@ -11,15 +11,12 @@
                     Reports Aset IT
                 </h2>
             </div>
-            <div class="flex gap-3">
-                <a href="{{ route('reports.create') }}"
-                   class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform group-hover:rotate-180 duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                    </svg>
-                                    <span class="font-semibold">Tambah Laporan</span>
-                                </a>
-            </div>
+            <div class="flex items-center px-3 py-2 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg text-white text-sm font-medium shadow-lg">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    {{ now()->format('d M Y, H:i') }}
+                </div>
         </div>
     </x-slot>
 
@@ -104,14 +101,38 @@
 
         {{-- Table Card --}}
         <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-800">
-            <div class="px-6 py-4 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-gray-800 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <div class="px-6 py-4 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-gray-800 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="flex items-center gap-2">
                     <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h2a2 2 0 012 2v2H8V5z"></path>
                     </svg>
-                    Daftar Laporan
-                </h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Daftar Laporan</h3>
+                </div>
+                
+                <div class="flex items-center gap-4 w-full sm:w-auto">
+                    <div class="relative">
+                                    <form method="GET" action="{{ route('reports.index') }}" class="relative">
+                                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Laporan..."
+                                            class="pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 w-full sm:w-64">
+                                        <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                    
+                    <a href="{{ route('reports.create') }}" 
+                       class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg hover:shadow-xl group">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform group-hover:rotate-90 duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                <span class="font-semibold">Tambah Laporan</span>
+                            </a>
+                </div>
             </div>
             
             <div class="overflow-x-auto">
@@ -165,24 +186,24 @@
 
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full
-    @if($report->status === 'selesai') 
-        bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300
-    @elseif($report->status === 'ditanggapi')
-        bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300
-    @else
-        bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300
-    @endif">
-    <div class="w-1.5 h-1.5 mr-1.5 rounded-full
-        @if($report->status === 'selesai') 
-            bg-emerald-500 
-        @elseif($report->status === 'ditanggapi')
-            bg-amber-500 
-        @else
-            bg-red-500 
-        @endif">
-    </div>
-    {{ ucfirst(str_replace('_', ' ', $report->status)) }}
-</span>
+                                        @if($report->status === 'selesai') 
+                                            bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300
+                                        @elseif($report->status === 'ditanggapi')
+                                            bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300
+                                        @else
+                                            bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300
+                                        @endif">
+                                        <div class="w-1.5 h-1.5 mr-1.5 rounded-full
+                                            @if($report->status === 'selesai') 
+                                                bg-emerald-500 
+                                            @elseif($report->status === 'ditanggapi')
+                                                bg-amber-500 
+                                            @else
+                                                bg-red-500 
+                                            @endif">
+                                        </div>
+                                        {{ ucfirst(str_replace('_', ' ', $report->status)) }}
+                                    </span>
                                 </td>
 
                                 <td class="px-6 py-4 text-gray-600 dark:text-gray-300">
