@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AssetReport extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'aset_id',
+        'title',
+        'nama_aset',
+        'kategori',
+        'deskripsi',
+        'laporan',
+        'status',
+    ];
+
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class, 'aset_id');
+    }
+}
