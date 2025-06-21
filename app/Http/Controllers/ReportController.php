@@ -28,7 +28,7 @@ class ReportController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Aktif,Perbaikan,Nonaktif',
+            'status' => 'required|in:aktif,perbaikan,non-aktif',
         ]);
 
         $asset = Asset::findOrFail($id);

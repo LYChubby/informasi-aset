@@ -62,9 +62,9 @@
                                     @method('PUT')
                                     <select name="status" onchange="this.form.submit()"
                                         class="block w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white shadow-sm">
-                                        <option value="Aktif" {{ $asset->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                        <option value="Perbaikan" {{ $asset->status === 'Perbaikan' ? 'selected' : '' }}>Perbaikan</option>
-                                        <option value="Nonaktif" {{ $asset->status === 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                                        <option value="aktif" {{ $asset->status === 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                        <option value="perbaikan" {{ $asset->status === 'perbaikan' ? 'selected' : '' }}>Perbaikan</option>
+                                        <option value="non-aktif" {{ $asset->status === 'non-aktif' ? 'selected' : '' }}>Nonaktif</option>
                                     </select>
                                 </form>
                             </td>
