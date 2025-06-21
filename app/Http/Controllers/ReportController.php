@@ -2,39 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Asset;
+use App\Models\AssetReport;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function index(Request $request)
+    // Tampilkan semua laporan
+    public function index()
     {
-        $search = $request->input('search');
-
-        $assets = Asset::when($search, function ($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%")
-                      ->orWhere('kategori', 'like', "%{$search}%")
-                      ->orWhere('lokasi', 'like', "%{$search}%")
-                      ->orWhere('status', 'like', "%{$search}%")
-                      ->orWhere('deskripsi', 'like', "%{$search}%");
-
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('reports.index', compact('assets'));
+        $reports = AssetReport::latest()->paginate(10);
+        return view('reports.index', compact('reports'));
     }
 
-    public function updateStatus(Request $request, $id)
+    // Tampilkan form tambah laporan
+    public function create()
+    {
+        $assets = Asset::all(); // supaya bisa pilih aset
+        return view('reports.create', compact('assets'));
+    }
+
+    // Simpan laporan baru
+    public function store(Request $request)
     {
         $request->validate([
-            'status' => 'required|in:aktif,perbaikan,non-aktif',
+            'aset_id' => 'required|exists:assets,id',
+            'deskripsi' => 'required',
+            'laporan' => 'required',
         ]);
 
-        $asset = Asset::findOrFail($id);
-        $asset->status = $request->status;
-        $asset->save();
+        $asset = Asset::findOrFail($request->aset_id);
 
-        return back()->with('success', 'Status aset berhasil diperbarui.');
+        AssetReport::create([
+            'aset_id' => $asset->id,
+            'title' => $asset->status,
+            'nama_aset' => $asset->nama,
+            'kategori' => $asset->kategori,
+            'deskripsi' => $request->deskripsi,
+            'laporan' => $request->laporan,
+            'status' => 'belum_ditanggapi',
+        ]);
+
+        return redirect()->route('reports.index')->with('success', 'Laporan berhasil dibuat.');
+    }
+
+    // Tampilkan detail laporan
+    public function show(string $id)
+    {
+        $report = AssetReport::findOrFail($id);
+        return view('reports.show', compact('report'));
+    }
+
+    // Tampilkan form edit laporan
+    public function edit(string $id)
+    {
+        $report = AssetReport::findOrFail($id);
+        return view('reports.edit', compact('report'));
+    }
+
+    // Update laporan
+    public function update(Request $request, string $id)
+    {
+        $report = AssetReport::findOrFail($id);
+
+        $request->validate([
+            'deskripsi' => 'required',
+            'laporan' => 'required',
+            'status' => 'in:ditanggapi,belum_ditanggapi'
+        ]);
+
+        $report->update($request->only(['deskripsi', 'laporan', 'status']));
+
+        return redirect()->route('reports.index')->with('success', 'Laporan berhasil diperbarui.');
+    }
+
+    // Hapus laporan
+    public function destroy(string $id)
+    {
+        $report = AssetReport::findOrFail($id);
+        $report->delete();
+
+        return redirect()->route('reports.index')->with('success', 'Laporan berhasil dihapus.');
     }
 }
