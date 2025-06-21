@@ -43,10 +43,12 @@
                     @forelse ($reports as $index => $report)
                         <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
                             <td class="px-6 py-4">{{ $index + 1 }}</td>
-                            <td class="px-6 py-4">{{ ucfirst($report->title) }}</td>
+                            
+                            {{-- Judul laporan dari kolom title --}}
+                            <td class="px-6 py-4 capitalize">{{ $report->title }}</td>
+                            
                             <td class="px-6 py-4 font-medium">{{ $report->nama_aset }}</td>
                             <td class="px-6 py-4">{{ $report->kategori }}</td>
-
                             <td class="px-6 py-4">{{ $report->laporan }}</td>
 
                             {{-- Status Laporan with Badge --}}

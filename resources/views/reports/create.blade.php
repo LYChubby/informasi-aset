@@ -17,6 +17,22 @@
         <form action="{{ route('reports.store') }}" method="POST" class="space-y-6">
             @csrf
 
+            {{-- Judul Laporan --}}
+            <div>
+                <label for="title" class="block font-medium text-gray-700 dark:text-white">Judul Laporan</label>
+                <select name="title" id="title" required
+                        class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                    <option value="">-- Pilih Judul Laporan --</option>
+                    <option value="perbaikan">Perbaikan</option>
+                    <option value="penambahan">Penambahan</option>
+                    <option value="kerusakan">Kerusakan</option>
+                </select>
+                @error('title')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+
             {{-- Pilih Aset --}}
             <div>
                 <label for="aset_id" class="block font-medium text-gray-700 dark:text-white">Pilih Aset</label>
@@ -32,17 +48,7 @@
                 @enderror
             </div>
 
-            {{-- Deskripsi --}}
-            <div>
-                <label for="deskripsi" class="block font-medium text-gray-700 dark:text-white">Deskripsi Singkat</label>
-                <input type="text" name="deskripsi" id="deskripsi" required
-                       class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2"
-                       placeholder="Contoh: Layar monitor berkedip">
-                @error('deskripsi')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
+            
             {{-- Isi Laporan --}}
             <div>
                 <label for="laporan" class="block font-medium text-gray-700 dark:text-white">Isi Laporan</label>

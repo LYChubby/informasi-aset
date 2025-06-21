@@ -32,7 +32,7 @@ class ReportController extends Controller
     {
         $request->validate([
             'aset_id' => 'required|exists:assets,id',
-            'deskripsi' => 'required',
+            'title' => 'required|in:perbaikan,penambahan,kerusakan',
             'laporan' => 'required',
         ]);
 
@@ -41,7 +41,7 @@ class ReportController extends Controller
         AssetReport::create([
             'user_id' => auth()->id(),
             'aset_id' => $asset->id,
-            'title' => $asset->status,
+            'title' => $request->title,
             'nama_aset' => $asset->nama,
             'kategori' => $asset->kategori,
             'deskripsi' => $request->deskripsi,
