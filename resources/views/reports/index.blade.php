@@ -26,12 +26,13 @@
             <table class="min-w-full bg-white dark:bg-gray-900 text-sm text-left text-gray-800 dark:text-gray-200">
                 <thead class="text-xs uppercase bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 text-gray-700 dark:text-gray-200">
                     <tr>
-                        <th class="px-6 py-4">#</th>
+                        <th class="px-6 py-4">No</th>
+                        <th class="px-6 py-4">Judul</th>
                         <th class="px-6 py-4">Nama Aset</th>
                         <th class="px-6 py-4">Kategori</th>
-                        <th class="px-6 py-4">Status Aset</th>
                         <th class="px-6 py-4">Isi Laporan</th>
                         <th class="px-6 py-4">Status Laporan</th>
+                        <th class="px-6 py-4">Tanggal Dibuat</th>
                         @if(auth()->user()->role === 'admin')
                             <th class="px-6 py-4">Dibuat Oleh</th>
                         @endif
@@ -42,10 +43,13 @@
                     @forelse ($reports as $index => $report)
                         <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
                             <td class="px-6 py-4">{{ $index + 1 }}</td>
+                            <td class="px-6 py-4">{{ ucfirst($report->title) }}</td>
                             <td class="px-6 py-4 font-medium">{{ $report->nama_aset }}</td>
                             <td class="px-6 py-4">{{ $report->kategori }}</td>
-                            <td class="px-6 py-4">{{ ucfirst($report->title) }}</td>
+
                             <td class="px-6 py-4">{{ $report->laporan }}</td>
+
+                            {{-- Status Laporan with Badge --}}
                             <td class="px-6 py-4">
                                 <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full text-white
                                     @if($report->status === 'ditanggapi') bg-green-500 
@@ -53,9 +57,13 @@
                                     {{ ucfirst(str_replace('_', ' ', $report->status)) }}
                                 </span>
                             </td>
+
+                            <td class="px-6 py-4">{{ $report->created_at->format('d-m-Y H:i') }}</td>
+
                             @if(auth()->user()->role === 'admin')
                                 <td class="px-6 py-4">{{ $report->user->name ?? '-' }}</td>
                             @endif
+
                             <td class="px-6 py-4 flex gap-2">
                                 <a href="{{ route('reports.edit', $report->id) }}" class="text-blue-600 hover:underline">Edit</a>
                                 <form action="{{ route('reports.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus laporan ini?')">
@@ -67,7 +75,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-6 text-gray-500 dark:text-gray-300">Tidak ada laporan ditemukan.</td>
+                            <td colspan="10" class="text-center py-6 text-gray-500 dark:text-gray-300">Tidak ada laporan ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>
