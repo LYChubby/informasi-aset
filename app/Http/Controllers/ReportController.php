@@ -29,40 +29,40 @@ class ReportController extends Controller
 
     // Simpan laporan baru
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|in:perbaikan,penambahan,kerusakan',
-        'laporan' => 'required',
-        'aset_id' => 'required_if:title,perbaikan,kerusakan|exists:assets,id|nullable',
-        'nama_aset' => 'required_if:title,penambahan',
-        'kategori' => 'required_if:title,penambahan',
-        'lokasi' => 'required_if:title,penambahan',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|in:perbaikan,penambahan,kerusakan',
+            'laporan' => 'required',
+            'aset_id' => 'required_if:title,perbaikan,kerusakan|exists:assets,id|nullable',
+            'nama_aset' => 'required_if:title,penambahan',
+            'kategori' => 'required_if:title,penambahan',
+            'lokasi' => 'required_if:title,penambahan',
+        ]);
 
-    $reportData = [
-        'user_id' => auth()->id(),
-        'title' => $request->title,
-        'laporan' => $request->laporan,
-        'status' => 'belum_ditanggapi',
-    ];
+        $reportData = [
+            'user_id' => auth()->id(),
+            'title' => $request->title,
+            'laporan' => $request->laporan,
+            'status' => 'belum_ditanggapi',
+        ];
 
-    if ($request->title === 'penambahan') {
-        $reportData['nama_aset'] = $request->nama_aset;
-        $reportData['kategori'] = $request->kategori;
-        $reportData['lokasi'] = $request->lokasi;
-        $reportData['aset_id'] = null; // Explicitly set to null for new assets
-    } else {
-        $asset = Asset::findOrFail($request->aset_id);
-        $reportData['aset_id'] = $asset->id;
-        $reportData['nama_aset'] = $asset->nama;
-        $reportData['kategori'] = $asset->kategori;
-        $reportData['lokasi'] = $asset->lokasi;
+        if ($request->title === 'penambahan') {
+            $reportData['nama_aset'] = $request->nama_aset;
+            $reportData['kategori'] = $request->kategori;
+            $reportData['lokasi'] = $request->lokasi;
+            $reportData['aset_id'] = null;
+        } else {
+            $asset = Asset::findOrFail($request->aset_id);
+            $reportData['aset_id'] = $asset->id;
+            $reportData['nama_aset'] = $asset->nama;
+            $reportData['kategori'] = $asset->kategori;
+            $reportData['lokasi'] = $asset->lokasi;
+        }
+
+        AssetReport::create($reportData);
+
+        return redirect()->route('reports.index')->with('success', 'Laporan berhasil dibuat.');
     }
-
-    AssetReport::create($reportData);
-
-    return redirect()->route('reports.index')->with('success', 'Laporan berhasil dibuat.');
-}
 
     // Tampilkan detail laporan
     public function show(string $id)
@@ -76,12 +76,12 @@ class ReportController extends Controller
     {
         $report = AssetReport::findOrFail($id);
 
-        // Validasi agar hanya pemilik atau admin bisa edit
         if (auth()->user()->cannot('update', $report)) {
             abort(403);
         }
 
-        return view('reports.edit', compact('report'));
+        $assets = Asset::all();
+        return view('reports.edit', compact('report', 'assets'));
     }
 
     // Update laporan
@@ -94,12 +94,34 @@ class ReportController extends Controller
         }
 
         $request->validate([
-            'deskripsi' => 'required',
+            'title' => 'required|in:perbaikan,penambahan,kerusakan',
             'laporan' => 'required',
-            'status' => 'in:ditanggapi,belum_ditanggapi'
+            'aset_id' => 'required_if:title,perbaikan,kerusakan|exists:assets,id|nullable',
+            'nama_aset' => 'required_if:title,penambahan',
+            'kategori' => 'required_if:title,penambahan',
+            'lokasi' => 'required_if:title,penambahan',
         ]);
 
-        $report->update($request->only(['deskripsi', 'laporan', 'status']));
+        $updateData = [
+            'title' => $request->title,
+            'laporan' => $request->laporan,
+        ];
+
+        if ($request->title === 'penambahan') {
+            $updateData['nama_aset'] = $request->nama_aset;
+            $updateData['kategori'] = $request->kategori;
+            $updateData['lokasi'] = $request->lokasi;
+            $updateData['aset_id'] = null;
+        } else {
+            $asset = Asset::findOrFail($request->aset_id);
+            $updateData['aset_id'] = $asset->id;
+            $updateData['nama_aset'] = $asset->nama;
+            $updateData['kategori'] = $asset->kategori;
+            $updateData['lokasi'] = $asset->lokasi;
+        }
+
+        // Jangan update status di sini (hanya admin nanti yang boleh)
+        $report->update($updateData);
 
         return redirect()->route('reports.index')->with('success', 'Laporan berhasil diperbarui.');
     }
