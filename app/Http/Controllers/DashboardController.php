@@ -8,6 +8,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        
         $latestAssets = Asset::latest()->take(5)->get();
         $totalAllAssets = Asset::count();
         $totalAktif = Asset::where('status', 'aktif')->count();

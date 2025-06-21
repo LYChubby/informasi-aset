@@ -9,9 +9,11 @@
                 </div>
                 <div>
                     <h2 class="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-                        {{ __('Kelola Aset') }}
+                        {{ auth()->user()->is_admin ? __('Kelola Aset') : __('Daftar Aset') }}
                     </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manajemen aset organisasi Anda</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {{ auth()->user()->is_admin ? 'Manajemen aset organisasi Anda' : 'Daftar aset organisasi Anda' }}
+                    </p>
                 </div>
             </div>
             <div class="hidden md:flex items-center space-x-3">

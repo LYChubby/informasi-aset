@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Gate;
 // Tambahkan model dan policy yang ingin kamu daftarkan
 use App\Models\AssetReport;
 use App\Policies\AssetReportPolicy;
+use App\Models\Asset;
+use App\Policies\AssetPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         AssetReport::class => AssetReportPolicy::class,
-         Asset::class => AssetPolicy::class,
+        Asset::class => AssetPolicy::class,
     ];
 
 

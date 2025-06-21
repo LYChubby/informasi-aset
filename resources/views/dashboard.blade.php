@@ -99,7 +99,9 @@
 
             <!-- Menu Utama dengan design card yang lebih menarik -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                
                 <!-- Kelola Aset -->
+                @if (auth()->user()->is_admin)
                 <a href="{{ route('assets.index') }}" class="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:scale-105 border border-gray-100 dark:border-gray-700 hover:border-orange-300">
                     <div class="absolute inset-0 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="relative p-8 text-center">
@@ -118,6 +120,7 @@
                         </div>
                     </div>
                 </a>
+                @endif
 
                 <!-- Laporan -->
                 <a href="{{ route('reports.index') }}" class="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:scale-105 border border-gray-100 dark:border-gray-700 hover:border-blue-300">
@@ -139,7 +142,9 @@
                     </div>
                 </a>
 
+                
                 <!-- Kelola Akun -->
+                @if (auth()->user()->is_admin)
                 <a href="{{ route('admin.users.index') }}" class="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:scale-105 border border-gray-100 dark:border-gray-700 hover:border-purple-300">
                     <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="relative p-8 text-center">
@@ -158,6 +163,7 @@
                         </div>
                     </div>
                 </a>
+                @endif
             </div>
 
             <!-- Aset Terbaru dengan design yang lebih modern -->

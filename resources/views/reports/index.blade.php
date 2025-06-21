@@ -179,8 +179,8 @@
                                 </td>
                                 
                                 <td class="px-6 py-4">
-                                    <div class="max-w-xs truncate text-gray-600 dark:text-gray-300">
-                                        {{ $report->laporan }}
+                                    <div class="flex items-center gap-2">
+                                        {{ Str::limit($report->laporan, 15) }}
                                     </div>
                                 </td>
 
