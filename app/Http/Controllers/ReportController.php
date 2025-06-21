@@ -94,8 +94,9 @@ class ReportController extends Controller
         }
 
         $request->validate([
+            'deskripsi' => 'required',
             'laporan' => 'required',
-            'status' => 'in:ditanggapi,belum_ditanggapi,selesai',
+            'status' => 'in:ditanggapi,belum_ditanggapi'
         ]);
 
         $report->update($request->only(['deskripsi', 'laporan', 'status']));
