@@ -15,6 +15,7 @@ class ReportController extends Controller
         return view('reports.index', compact('reports'));
     }
 
+
     // Tampilkan form tambah laporan
     public function create()
     {
