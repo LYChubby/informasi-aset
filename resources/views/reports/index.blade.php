@@ -21,18 +21,6 @@
             </div>
         @endif
 
-        {{-- Search Bar (Opsional, kalau belum implementasi pencarian bisa dihapus) --}}
-        {{-- 
-        <form method="GET" action="{{ route('reports.index') }}" class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="🔍 Cari laporan..."
-                class="w-full sm:w-1/3 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none">
-            <button type="submit"
-                class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition shadow">
-                Cari
-            </button>
-        </form>
-        --}}
-
         {{-- Table --}}
         <div class="overflow-x-auto rounded-lg shadow-lg ring-1 ring-black/5 dark:ring-white/10">
             <table class="min-w-full bg-white dark:bg-gray-900 text-sm text-left text-gray-800 dark:text-gray-200">
@@ -44,6 +32,9 @@
                         <th class="px-6 py-4">Status Aset</th>
                         <th class="px-6 py-4">Isi Laporan</th>
                         <th class="px-6 py-4">Status Laporan</th>
+                        @if(auth()->user()->role === 'admin')
+                            <th class="px-6 py-4">Dibuat Oleh</th>
+                        @endif
                         <th class="px-6 py-4">Aksi</th>
                     </tr>
                 </thead>
@@ -62,19 +53,21 @@
                                     {{ ucfirst(str_replace('_', ' ', $report->status)) }}
                                 </span>
                             </td>
+                            @if(auth()->user()->role === 'admin')
+                                <td class="px-6 py-4">{{ $report->user->name ?? '-' }}</td>
+                            @endif
                             <td class="px-6 py-4 flex gap-2">
-                                <a href="{{ route('reports.edit', $report->id) }}"
-                                   class="text-blue-600 hover:underline">Edit</a>
-                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus?')">
+                                <a href="{{ route('reports.edit', $report->id) }}" class="text-blue-600 hover:underline">Edit</a>
+                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus laporan ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="text-red-600 hover:underline">Hapus</button>
+                                    <button type="submit" class="text-red-600 hover:underline">Hapus</button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-6 text-gray-500 dark:text-gray-300">Tidak ada laporan ditemukan.</td>
+                            <td colspan="8" class="text-center py-6 text-gray-500 dark:text-gray-300">Tidak ada laporan ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin', 
+        'is_admin',
     ];
 
     /**
@@ -58,4 +58,10 @@ class User extends Authenticatable
     {
         return $this->is_admin === true || $this->is_admin == 1;
     }
+
+    public function reports()
+    {
+        return $this->hasMany(AssetReport::class);
+    }
+
 }

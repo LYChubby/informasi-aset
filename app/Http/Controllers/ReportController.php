@@ -8,18 +8,22 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    // Tampilkan semua laporan
+    // Tampilkan semua laporan (admin: semua, user: hanya miliknya)
     public function index()
     {
-        $reports = AssetReport::latest()->paginate(10);
+        $user = auth()->user();
+
+        $reports = $user->role === 'admin'
+            ? AssetReport::latest()->paginate(10)
+            : AssetReport::where('user_id', $user->id)->latest()->paginate(10);
+
         return view('reports.index', compact('reports'));
     }
-
 
     // Tampilkan form tambah laporan
     public function create()
     {
-        $assets = Asset::all(); // supaya bisa pilih aset
+        $assets = Asset::all(); // supaya user bisa pilih aset
         return view('reports.create', compact('assets'));
     }
 
@@ -35,6 +39,7 @@ class ReportController extends Controller
         $asset = Asset::findOrFail($request->aset_id);
 
         AssetReport::create([
+            'user_id' => auth()->id(),
             'aset_id' => $asset->id,
             'title' => $asset->status,
             'nama_aset' => $asset->nama,
@@ -58,6 +63,12 @@ class ReportController extends Controller
     public function edit(string $id)
     {
         $report = AssetReport::findOrFail($id);
+
+        // Validasi agar hanya pemilik atau admin bisa edit
+        if (auth()->user()->cannot('update', $report)) {
+            abort(403);
+        }
+
         return view('reports.edit', compact('report'));
     }
 
@@ -65,6 +76,10 @@ class ReportController extends Controller
     public function update(Request $request, string $id)
     {
         $report = AssetReport::findOrFail($id);
+
+        if (auth()->user()->cannot('update', $report)) {
+            abort(403);
+        }
 
         $request->validate([
             'deskripsi' => 'required',
@@ -81,6 +96,11 @@ class ReportController extends Controller
     public function destroy(string $id)
     {
         $report = AssetReport::findOrFail($id);
+
+        if (auth()->user()->cannot('delete', $report)) {
+            abort(403);
+        }
+
         $report->delete();
 
         return redirect()->route('reports.index')->with('success', 'Laporan berhasil dihapus.');
