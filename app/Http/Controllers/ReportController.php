@@ -44,7 +44,7 @@ class ReportController extends Controller
             'title' => $request->title,
             'nama_aset' => $asset->nama,
             'kategori' => $asset->kategori,
-             'deskripsi' => $asset->deskripsi ?? '-',
+            'deskripsi' => $asset->deskripsi ?? '-',
             'laporan' => $request->laporan,
             'status' => 'belum_ditanggapi',
         ]);
