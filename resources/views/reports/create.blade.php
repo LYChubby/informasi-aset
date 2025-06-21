@@ -40,7 +40,7 @@
                         class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
                     <option value="">-- Pilih Aset --</option>
                     @foreach($assets as $asset)
-                        <option value="{{ $asset->id }}">{{ $asset->nama }} - ({{ $asset->kategori }})</option>
+                        <option value="{{ $asset->id }}">{{ $asset->nama }} - ({{ $asset->kategori }}) - ({{ $asset->lokasi }})</option>
                     @endforeach
                 </select>
                 @error('aset_id')
