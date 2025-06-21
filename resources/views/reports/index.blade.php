@@ -13,12 +13,12 @@
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('reports.create') }}"
-                   class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    Tambah Laporan
-                </a>
+                   class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform group-hover:rotate-180 duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    <span class="font-semibold">Tambah Laporan</span>
+                                </a>
             </div>
         </div>
     </x-slot>
@@ -44,7 +44,7 @@
         @endif
 
         {{-- Stats Cards --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-6 rounded-2xl shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
@@ -59,7 +59,7 @@
                 </div>
             </div>
             
-            <div class="bg-gradient-to-br from-amber-500 to-amber-600 text-white p-6 rounded-2xl shadow-lg">
+            <div class="bg-gradient-to-br from-red-500 to-red-600 text-white p-6 rounded-2xl shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-amber-100 text-sm font-medium">Belum Ditanggapi</p>
@@ -73,11 +73,25 @@
                 </div>
             </div>
             
-            <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white p-6 rounded-2xl shadow-lg">
+            <div class="bg-gradient-to-br from-yellow-400 to-yellow-500 text-white p-6 rounded-2xl shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-emerald-100 text-sm font-medium">Ditanggapi</p>
                         <p class="text-3xl font-bold">{{ $reports->where('status', 'ditanggapi')->count() }}</p>
+                    </div>
+                    <div class="p-3 bg-white/20 rounded-xl">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white p-6 rounded-2xl shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-emerald-100 text-sm font-medium">Selesai</p>
+                        <p class="text-3xl font-bold">{{ $reports->where('status', 'selesai')->count() }}</p>
                     </div>
                     <div class="p-3 bg-white/20 rounded-xl">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,16 +165,24 @@
 
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full
-                                        @if($report->status === 'ditanggapi') 
-                                            bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300
-                                        @else 
-                                            bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300
-                                        @endif">
-                                        <div class="w-1.5 h-1.5 mr-1.5 rounded-full
-                                            @if($report->status === 'ditanggapi') bg-emerald-500 @else bg-amber-500 @endif">
-                                        </div>
-                                        {{ ucfirst(str_replace('_', ' ', $report->status)) }}
-                                    </span>
+    @if($report->status === 'selesai') 
+        bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300
+    @elseif($report->status === 'ditanggapi')
+        bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300
+    @else
+        bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300
+    @endif">
+    <div class="w-1.5 h-1.5 mr-1.5 rounded-full
+        @if($report->status === 'selesai') 
+            bg-emerald-500 
+        @elseif($report->status === 'ditanggapi')
+            bg-amber-500 
+        @else
+            bg-red-500 
+        @endif">
+    </div>
+    {{ ucfirst(str_replace('_', ' ', $report->status)) }}
+</span>
                                 </td>
 
                                 <td class="px-6 py-4 text-gray-600 dark:text-gray-300">

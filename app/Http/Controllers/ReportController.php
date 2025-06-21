@@ -122,7 +122,7 @@ class ReportController extends Controller
 
     // Tambahkan validasi status hanya untuk admin
     if (auth()->user()->is_admin) {
-        $validationRules['status'] = 'sometimes|in:belum_ditanggapi,ditanggapi';
+        $validationRules['status'] = 'sometimes|in:belum_ditanggapi,ditanggapi,selesai';
     }
 
     $request->validate($validationRules);
