@@ -10,6 +10,7 @@ class AssetReport extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'aset_id',
         'title',
         'nama_aset',
