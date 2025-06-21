@@ -7,13 +7,22 @@ use App\Models\User;
 
 class AssetReportPolicy
 {
-    public function delete(User $user, AssetReport $report): bool
-    {
-        return $user->role === 'admin' || $user->id === $report->user_id;
+    public function update(User $user, AssetReport $report)
+{
+    if ($user->is_admin) {
+        return true;
     }
 
-    public function update(User $user, AssetReport $report): bool
-    {
-        return $user->role === 'admin' || $user->id === $report->user_id;
+    return $user->id === $report->user_id && $report->status === 'belum_ditanggapi';
+}
+
+public function delete(User $user, AssetReport $report)
+{
+    if ($user->is_admin) {
+        return true;
     }
+
+    return $user->id === $report->user_id && $report->status === 'belum_ditanggapi';
+}
+
 }

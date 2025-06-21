@@ -19,7 +19,7 @@ class AssetController extends Controller
             });
         }
 
-        $assets = $query->latest()->paginate(10)->withQueryString();
+        $assets = $query->orderBy('updated_at', 'desc')->paginate(10)->withQueryString();
         return view('assets.index', compact('assets'));
     }
 

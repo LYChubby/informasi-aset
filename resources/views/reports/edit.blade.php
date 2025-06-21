@@ -13,7 +13,7 @@
 
             {{-- Judul Laporan --}}
             <div>
-                <label for="title" class="block font-medium text-gray-700 dark:text-white">Judul Laporan</label>
+                <label for="title" class="block font-medium text-gray-700 dark:text-white">Jenis Laporan</label>
                 <select name="title" id="title" required
                         class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
                     <option value="perbaikan" {{ $report->title === 'perbaikan' ? 'selected' : '' }}>Perbaikan</option>
@@ -23,16 +23,38 @@
             </div>
 
             {{-- Pilih Aset --}}
-            <div>
+            <div id="assetField">
                 <label for="aset_id" class="block font-medium text-gray-700 dark:text-white">Pilih Aset</label>
-                <select name="aset_id" id="aset_id" required
+                <select name="aset_id" id="aset_id"
                         class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                    <option value="">-- Pilih Aset --</option>
                     @foreach($assets as $asset)
                         <option value="{{ $asset->id }}" {{ $report->aset_id == $asset->id ? 'selected' : '' }}>
                             {{ $asset->nama }} - ({{ $asset->kategori }}) - ({{ $asset->lokasi }})
                         </option>
                     @endforeach
                 </select>
+            </div>
+
+            {{-- Form untuk Aset Baru (muncul jika jenis laporan penambahan) --}}
+            <div id="newAssetFields" class="space-y-4 hidden">
+                <div>
+                    <label for="nama_aset" class="block font-medium text-gray-700 dark:text-white">Nama Aset Baru</label>
+                    <input type="text" name="nama_aset" id="nama_aset" value="{{ $report->nama_aset }}"
+                           class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                </div>
+                
+                <div>
+                    <label for="kategori" class="block font-medium text-gray-700 dark:text-white">Kategori</label>
+                    <input type="text" name="kategori" id="kategori" value="{{ $report->kategori }}"
+                           class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                </div>
+                
+                <div>
+                    <label for="lokasi" class="block font-medium text-gray-700 dark:text-white">Lokasi</label>
+                    <input type="text" name="lokasi" id="lokasi" value="{{ $report->lokasi }}"
+                           class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                </div>
             </div>
 
             {{-- Isi Laporan --}}
@@ -42,6 +64,18 @@
                           class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2"
                           placeholder="Update isi laporan...">{{ $report->laporan }}</textarea>
             </div>
+
+            {{-- Status Laporan (hanya untuk admin) --}}
+            @if(auth()->user()->is_admin)
+                <div>
+                    <label for="status" class="block font-medium text-gray-700 dark:text-white">Status Laporan</label>
+                    <select name="status" id="status"
+                            class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                        <option value="belum_ditanggapi" {{ $report->status === 'belum_ditanggapi' ? 'selected' : '' }}>Belum Ditanggapi</option>
+                        <option value="ditanggapi" {{ $report->status === 'ditanggapi' ? 'selected' : '' }}>Ditanggapi</option>
+                    </select>
+                </div>
+            @endif
 
             {{-- Tombol --}}
             <div class="flex justify-end">
@@ -56,4 +90,36 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // Toggle form fields berdasarkan jenis laporan
+        document.getElementById('title').addEventListener('change', function() {
+            const assetField = document.getElementById('assetField');
+            const newAssetFields = document.getElementById('newAssetFields');
+            
+            if (this.value === 'penambahan') {
+                assetField.classList.add('hidden');
+                newAssetFields.classList.remove('hidden');
+                document.getElementById('aset_id').removeAttribute('required');
+                document.getElementById('nama_aset').setAttribute('required', '');
+                document.getElementById('kategori').setAttribute('required', '');
+                document.getElementById('lokasi').setAttribute('required', '');
+            } else {
+                assetField.classList.remove('hidden');
+                newAssetFields.classList.add('hidden');
+                document.getElementById('aset_id').setAttribute('required', '');
+                document.getElementById('nama_aset').removeAttribute('required');
+                document.getElementById('kategori').removeAttribute('required');
+                document.getElementById('lokasi').removeAttribute('required');
+            }
+        });
+
+        // Inisialisasi form saat pertama kali load
+        document.addEventListener('DOMContentLoaded', function() {
+            const titleSelect = document.getElementById('title');
+            if (titleSelect) {
+                titleSelect.dispatchEvent(new Event('change'));
+            }
+        });
+    </script>
 </x-app-layout>

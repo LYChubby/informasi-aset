@@ -34,6 +34,15 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div class="bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-500 text-red-800 px-6 py-4 rounded-r-lg shadow-sm flex items-center gap-3">
+                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-medium">{{ session('error') }}</span>
+            </div>
+        @endif
+
         {{-- Stats Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-6 rounded-2xl shadow-lg">
@@ -53,8 +62,8 @@
             <div class="bg-gradient-to-br from-amber-500 to-amber-600 text-white p-6 rounded-2xl shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-amber-100 text-sm font-medium">Menunggu Tanggapan</p>
-                        <p class="text-3xl font-bold">{{ $reports->where('status', 'menunggu_tanggapan')->count() }}</p>
+                        <p class="text-amber-100 text-sm font-medium">Belum Ditanggapi</p>
+                        <p class="text-3xl font-bold">{{ $reports->where('status', 'belum_ditanggapi')->count() }}</p>
                     </div>
                     <div class="p-3 bg-white/20 rounded-xl">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +111,7 @@
                             <th class="px-6 py-4 font-semibold">Isi Laporan</th>
                             <th class="px-6 py-4 font-semibold">Status</th>
                             <th class="px-6 py-4 font-semibold">Tanggal</th>
-                            @if(auth()->user()->role === 'admin')
+                            @if(auth()->user()->is_admin)
                                 <th class="px-6 py-4 font-semibold">Dibuat Oleh</th>
                             @endif
                             <th class="px-6 py-4 font-semibold">Aksi</th>
@@ -159,7 +168,7 @@
                                     <div class="text-xs text-gray-500">{{ $report->created_at->format('H:i') }}</div>
                                 </td>
 
-                                @if(auth()->user()->role === 'admin')
+                                @if(auth()->user()->is_admin)
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-2">
                                             <div class="w-6 h-6 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center">
@@ -183,32 +192,34 @@
                                             Detail
                                         </a>
                                         
-                                        <a href="{{ route('reports.edit', $report->id) }}" 
-                                           class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 rounded-lg transition-colors duration-200">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                            Edit
-                                        </a>
-                                        
-                                        <form action="{{ route('reports.destroy', $report->id) }}" method="POST" 
-                                              onsubmit="return confirm('Yakin ingin menghapus laporan ini?')" class="inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" 
-                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-lg transition-colors duration-200">
+                                        @if(($report->status === 'belum_ditanggapi' && auth()->user()->id === $report->user_id) || auth()->user()->is_admin)
+                                            <a href="{{ route('reports.edit', $report->id) }}" 
+                                               class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 rounded-lg transition-colors duration-200">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                                 </svg>
-                                                Hapus
-                                            </button>
-                                        </form>
+                                                Edit
+                                            </a>
+                                            
+                                            <form action="{{ route('reports.destroy', $report->id) }}" method="POST" 
+                                                  onsubmit="return confirm('Yakin ingin menghapus laporan ini?')" class="inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-lg transition-colors duration-200">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                    </svg>
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="px-6 py-12 text-center">
+                                <td colspan="{{ auth()->user()->is_admin ? 9 : 8 }}" class="px-6 py-12 text-center">
                                     <div class="flex flex-col items-center gap-3">
                                         <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
                                             <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
