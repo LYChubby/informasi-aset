@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('asset_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('aset_id')->constrained('assets')->onDelete('cascade'); // relasi ke assets
+            $table->foreignId('aset_id')->nullable()->constrained('assets')->onDelete('set null');
             $table->string('title');        // dari status asset (aktif, nonaktif, perbaikan)
             $table->string('nama_aset');    // redundan dari assets.nama
             $table->string('kategori');     // redundan dari assets.kategori

@@ -10,19 +10,16 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-    {
-        Schema::table('assets', function (Blueprint $table) {
-            $table->dropColumn('deskripsi');
-        });
-    }
+{
+    Schema::table('asset_reports', function (Blueprint $table) {
+        $table->dropColumn('deskripsi');
+    });
+}
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
-    {
-        Schema::table('assets', function (Blueprint $table) {
-            $table->text('deskripsi')->nullable()->after('lokasi');
-        });
-    }
+public function down()
+{
+    Schema::table('asset_reports', function (Blueprint $table) {
+        $table->text('deskripsi')->nullable();
+    });
+}
 };

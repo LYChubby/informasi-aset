@@ -29,28 +29,40 @@ class ReportController extends Controller
 
     // Simpan laporan baru
     public function store(Request $request)
-    {
-        $request->validate([
-            'aset_id' => 'required|exists:assets,id',
-            'title' => 'required|in:perbaikan,penambahan,kerusakan',
-            'laporan' => 'required',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|in:perbaikan,penambahan,kerusakan',
+        'laporan' => 'required',
+        'aset_id' => 'required_if:title,perbaikan,kerusakan|exists:assets,id|nullable',
+        'nama_aset' => 'required_if:title,penambahan',
+        'kategori' => 'required_if:title,penambahan',
+        'lokasi' => 'required_if:title,penambahan',
+    ]);
 
+    $reportData = [
+        'user_id' => auth()->id(),
+        'title' => $request->title,
+        'laporan' => $request->laporan,
+        'status' => 'belum_ditanggapi',
+    ];
+
+    if ($request->title === 'penambahan') {
+        $reportData['nama_aset'] = $request->nama_aset;
+        $reportData['kategori'] = $request->kategori;
+        $reportData['lokasi'] = $request->lokasi;
+        $reportData['aset_id'] = null; // Explicitly set to null for new assets
+    } else {
         $asset = Asset::findOrFail($request->aset_id);
-
-        AssetReport::create([
-            'user_id' => auth()->id(),
-            'aset_id' => $asset->id,
-            'title' => $request->title,
-            'nama_aset' => $asset->nama,
-            'kategori' => $asset->kategori,
-            'lokasi' => $asset->lokasi,
-            'laporan' => $request->laporan,
-            'status' => 'belum_ditanggapi',
-        ]);
-
-        return redirect()->route('reports.index')->with('success', 'Laporan berhasil dibuat.');
+        $reportData['aset_id'] = $asset->id;
+        $reportData['nama_aset'] = $asset->nama;
+        $reportData['kategori'] = $asset->kategori;
+        $reportData['lokasi'] = $asset->lokasi;
     }
+
+    AssetReport::create($reportData);
+
+    return redirect()->route('reports.index')->with('success', 'Laporan berhasil dibuat.');
+}
 
     // Tampilkan detail laporan
     public function show(string $id)

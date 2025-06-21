@@ -21,7 +21,8 @@
             <div>
                 <label for="title" class="block font-medium text-gray-700 dark:text-white">Judul Laporan</label>
                 <select name="title" id="title" required
-                        class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                        class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2"
+                        onchange="toggleAssetFields()">
                     <option value="">-- Pilih Judul Laporan --</option>
                     <option value="perbaikan">Perbaikan</option>
                     <option value="penambahan">Penambahan</option>
@@ -32,11 +33,10 @@
                 @enderror
             </div>
 
-
-            {{-- Pilih Aset --}}
-            <div>
+            {{-- Pilih Aset (akan disembunyikan saat pilih Penambahan) --}}
+            <div id="asset-selection">
                 <label for="aset_id" class="block font-medium text-gray-700 dark:text-white">Pilih Aset</label>
-                <select name="aset_id" id="aset_id" required
+                <select name="aset_id" id="aset_id"
                         class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
                     <option value="">-- Pilih Aset --</option>
                     @foreach($assets as $asset)
@@ -48,7 +48,36 @@
                 @enderror
             </div>
 
-            
+            {{-- Form Manual untuk Penambahan Aset Baru --}}
+            <div id="manual-fields" class="hidden space-y-4">
+                <div>
+                    <label for="nama_aset" class="block font-medium text-gray-700 dark:text-white">Nama Aset Baru</label>
+                    <input type="text" name="nama_aset" id="nama_aset"
+                           class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                    @error('nama_aset')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="kategori" class="block font-medium text-gray-700 dark:text-white">Kategori</label>
+                    <input type="text" name="kategori" id="kategori"
+                           class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                    @error('kategori')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="lokasi" class="block font-medium text-gray-700 dark:text-white">Lokasi</label>
+                    <input type="text" name="lokasi" id="lokasi"
+                           class="w-full mt-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
+                    @error('lokasi')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
             {{-- Isi Laporan --}}
             <div>
                 <label for="laporan" class="block font-medium text-gray-700 dark:text-white">Isi Laporan</label>
@@ -73,4 +102,27 @@
             </div>
         </form>
     </div>
+
+    <script>
+        function toggleAssetFields() {
+    const title = document.getElementById('title').value;
+    const assetSelection = document.getElementById('asset-selection');
+    const manualFields = document.getElementById('manual-fields');
+    
+    if (title === 'penambahan') {
+        assetSelection.classList.add('hidden');
+        manualFields.classList.remove('hidden');
+        document.getElementById('aset_id').required = false;
+    } else {
+        assetSelection.classList.remove('hidden');
+        manualFields.classList.add('hidden');
+        document.getElementById('aset_id').required = true;
+    }
+}
+
+        // Panggil saat pertama kali load
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleAssetFields();
+        });
+    </script>
 </x-app-layout>
