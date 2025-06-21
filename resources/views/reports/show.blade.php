@@ -87,10 +87,12 @@
                             <div class="w-1 h-6 bg-orange-500 rounded-full mr-3"></div>
                             <h3 class="text-xl font-bold text-orange-800 dark:text-orange-200">Detail Laporan</h3>
                         </div>
-                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-orange-200 dark:border-orange-700 min-h-[200px]">
-                            <div class="flex items-start">
-                                <div class="text-orange-500 text-2xl mr-3">📝</div>
-                                <p class="whitespace-pre-line text-gray-700 dark:text-gray-300 leading-relaxed">{{ $report->laporan }}</p>
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-orange-200 dark:border-orange-700 min-h-[200px] max-h-[400px] overflow-y-auto">
+                            <div class="flex items-baseline">
+                            
+                                <p class="whitespace-pre-line text-gray-700 dark:text-gray-300 leading-relaxed break-words overflow-hidden">
+                                    📝 {{ $report->laporan }}
+                                </p>
                             </div>
                         </div>
                     </div>

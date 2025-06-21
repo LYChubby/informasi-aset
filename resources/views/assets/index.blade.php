@@ -48,75 +48,7 @@
             @endif
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-xl">
-                    <div class="p-6 relative z-10">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-blue-100 text-sm font-medium">Total Aset</p>
-                                <p class="text-3xl font-bold text-white">{{ $assets->total() }}</p>
-                            </div>
-                            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-                </div>
-
-                <div class="relative overflow-hidden bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-xl">
-                    <div class="p-6 relative z-10">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-green-100 text-sm font-medium">Aset Aktif</p>
-                                <p class="text-3xl font-bold text-white">{{ $assets->where('status', 'aktif')->count() }}</p>
-                            </div>
-                            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-                </div>
-
-                <div class="relative overflow-hidden bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-xl">
-                    <div class="p-6 relative z-10">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-orange-100 text-sm font-medium">Perlu Perbaikan</p>
-                                <p class="text-3xl font-bold text-white">{{ $assets->where('status', 'perbaikan')->count() }}</p>
-                            </div>
-                            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-                </div>
-
-                <div class="relative overflow-hidden bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl shadow-xl">
-                    <div class="p-6 relative z-10">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-red-100 text-sm font-medium">Non-Aktif</p>
-                                <p class="text-3xl font-bold text-white">{{ $assets->where('status', 'non-aktif')->count() }}</p>
-                            </div>
-                            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-                </div>
-            </div>
+            
 
             <!-- Main Content -->
             <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl overflow-hidden shadow-2xl rounded-3xl border border-gray-200/50 dark:border-gray-700/50">
@@ -151,12 +83,14 @@
                                     </form>
                                 </div>
                                 
+                                @can('create', App\Models\Asset::class)
                                 <a href="{{ route('assets.create') }}" class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl group">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform group-hover:rotate-180 duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>
                                     <span class="font-semibold">Tambah Aset</span>
                                 </a>
+                                @endcan
                             </div>
                         </div>
 
@@ -249,11 +183,15 @@
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                         </svg>
                                                     </a>
+                                                    @can('update', $asset)
                                                     <a href="{{ route('assets.edit', $asset->id) }}" class="p-2 text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 bg-orange-50 hover:bg-orange-100 dark:bg-orange-900/30 dark:hover:bg-orange-900/50 rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg hover:shadow-xl" title="Edit">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                         </svg>
                                                     </a>
+                                                    @endcan
+
+                                                    @can('delete', $asset)
                                                     <form action="{{ route('assets.destroy', $asset->id) }}" method="POST" class="inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -263,6 +201,7 @@
                                                             </svg>
                                                         </button>
                                                     </form>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>

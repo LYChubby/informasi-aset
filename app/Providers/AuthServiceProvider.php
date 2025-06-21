@@ -16,7 +16,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         AssetReport::class => AssetReportPolicy::class,
+         Asset::class => AssetPolicy::class,
     ];
+
+
 
     /**
      * Register any authentication / authorization services.
