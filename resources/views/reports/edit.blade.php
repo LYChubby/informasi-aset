@@ -29,7 +29,7 @@
                         class="w-full mt-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white px-4 py-2">
                     @foreach($assets as $asset)
                         <option value="{{ $asset->id }}" {{ $report->aset_id == $asset->id ? 'selected' : '' }}>
-                            {{ $asset->nama }} - ({{ $asset->kategori }})
+                            {{ $asset->nama }} - ({{ $asset->kategori }}) - ({{ $asset->lokasi }})
                         </option>
                     @endforeach
                 </select>
