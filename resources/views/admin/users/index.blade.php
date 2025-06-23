@@ -443,23 +443,3 @@
         }
     </style>
 </x-app-layout>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-function confirmDelete(userId) {
-    Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: "Data pengguna akan dihapus secara permanen!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#e3342f',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Ya, hapus!',
-        cancelButtonText: 'Batal'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('delete-form-' + userId).submit();
-        }
-    });
-}
-</script>
