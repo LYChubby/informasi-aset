@@ -230,13 +230,13 @@
                                                     </svg>
                                                     <span class="text-xs font-semibold">Edit</span>
                                                 </a>
-                                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline">
+                                                <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" 
+                                                    <button type="button" 
                                                             class="inline-flex items-center px-3 py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-md hover:shadow-lg group" 
                                                             title="Hapus" 
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                                            onclick="confirmDelete('{{ $user->id }}')">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
@@ -443,3 +443,23 @@
         }
     </style>
 </x-app-layout>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function confirmDelete(userId) {
+    Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Data pengguna akan dihapus secara permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e3342f',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('delete-form-' + userId).submit();
+        }
+    });
+}
+</script>
