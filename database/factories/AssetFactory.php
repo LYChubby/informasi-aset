@@ -12,13 +12,12 @@ class AssetFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama' => $this->faker->word(),
-            'kategori' => 'Elektronik',
-            'lokasi' => 'Ruang A',
+            'nama' => $this->faker->word,
+            'kategori' => $this->faker->word,
+            'lokasi' => $this->faker->city,
             'status' => 'aktif',
-            'tanggal_pembelian' => now(),
-            'nilai' => 1000000,
-            'deskripsi' => 'Aset untuk keperluan operasional',
+            'tanggal_pembelian' => now()->subDays(rand(1, 365))->format('Y-m-d'),
+            'nilai' => $this->faker->numberBetween(1000000, 10000000), 
         ];
     }
 }
